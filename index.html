@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>أداة تصنيف Bone-RADS</title>
+
+<style>
+    body {
+        font-family: "Tahoma", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f2f2f2; /* خلفية بسيطة وأنيقة */
+        color: #000;
+    }
+
+    .container {
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 650px;
+        margin: 40px auto;
+        box-shadow: 0 0 15px #aaa;
+    }
+
+    h2 {
+        text-align: center;
+        color: #004d40;
+        font-size: 26px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+    }
+
+    select, button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        margin-bottom: 15px;
+        font-size: 16px;
+        border-radius: 6px;
+        border: 1px solid #777;
+    }
+
+    button {
+        background: #00695c;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+    }
+
+    button:hover {
+        background: #004d40;
+    }
+
+    .reset-btn {
+        background: #b71c1c;
+    }
+
+    .reset-btn:hover {
+        background: #7f0000;
+    }
+
+    .result {
+        background: #e8f5e9;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+        font-size: 18px;
+        border: 2px solid #2e7d32;
+        color: #1b5e20;
+    }
+
+    .table-box {
+        margin-top: 30px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #444;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #444;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #000;
+        color: #fff;
+    }
+
+    .footer {
+        margin-top: 25px;
+        text-align: center;
+        font-weight: bold;
+        color: #000;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>أداة تصنيف Bone‑RADS  
+<br> Bone-RADS Classification Tool</h2>
+
+<!-- المتغيرات -->
+
+<label>الكثافة Density</label>
+<select id="density">
+    <option value="lucent">شفافة Lucent</option>
+    <option value="sclerotic">مصلبة Sclerotic</option>
+    <option value="mixed">مختلطة Mixed</option>
+</select>
+
+<label>الحواف Margins</label>
+<select id="margins">
+    <option value="well">واضحة Well-defined</option>
+    <option value="ill">غير واضحة Ill-defined</option>
+</select>
+
+<label>نمط الارتكاس السمحاقي Periosteal Reaction</label>
+<select id="periosteal">
+    <option value="none">لا يوجد None</option>
+    <option value="nonagg">غير عدواني Non-aggressive</option>
+    <option value="agg">عدواني Aggressive</option>
+</select>
+
+<label>عمق التآكل Endosteal Erosion</label>
+<select id="erosion">
+    <option value="mild">خفيف Mild</option>
+    <option value="moderate">متوسط Moderate</option>
+    <option value="deep">عميق Deep</option>
+</select>
+
+<label>الكسر المرضي Pathologic Fracture</label>
+<select id="fracture">
+    <option value="no">لا No</option>
+    <option value="yes">نعم Yes</option>
+</select>
+
+<label>كتلة الأنسجة الرخوة Soft Tissue Mass</label>
+<select id="soft">
+    <option value="no">لا No</option>
+    <option value="yes">نعم Yes</option>
+</select>
+
+<label>الامتداد الطولي Longitudinal Extent</label>
+<select id="long">
+    <option value="small">صغير Small</option>
+    <option value="medium">متوسط Moderate</option>
+    <option value="large">كبير Large</option>
+</select>
+
+<label>الامتداد العرضي Transverse Extent</label>
+<select id="trans">
+    <option value="small">صغير Small</option>
+    <option value="medium">متوسط Moderate</option>
+    <option value="large">كبير Large</option>
+</select>
+
+<button onclick="calculate()">احسب التصنيف Calculate</button>
+<button onclick="resetForm()" class="reset-btn">إعادة التقييم Reset</button>
+
+<div id="output" class="result" style="display:none;"></div>
+
+<!-- جدول التصنيفات -->
+<div class="table-box">
+<h3 style="text-align:center;">جدول مختصر لتصنيفات Bone‑RADS</h3>
+
+<table>
+<tr>
+<th>التصنيف</th>
+<th>الوصف المختصر</th>
+</tr>
+
+<tr>
+<td>BRADS‑1</td>
+<td>آفة سليمة نموذجية – لا تحتاج متابعة</td>
+</tr>
+
+<tr>
+<td>BRADS‑2</td>
+<td>آفة محتملة السليم – متابعة خلال 6 أشهر</td>
+</tr>
+
+<tr>
+<td>BRADS‑3</td>
+<td>آفة غير نموذجية – تحتاج MRI أو متابعة قصيرة</td>
+</tr>
+
+<tr>
+<td>BRADS‑4</td>
+<td>آفة مشتبهة بالخباثة – تحتاج خزعة أو إحالة</td>
+</tr>
+</table>
+</div>
+
+<div class="footer">
+الباحث: محمود قاسم العاني  
+<br>Researcher: Mahmoud Qassem Al‑Ani
+</div>
+
+</div>
+
+<script>
+function calculate() {
+
+    let density = document.getElementById("density").value;
+    let margins = document.getElementById("margins").value;
+    let periosteal = document.getElementById("periosteal").value;
+    let erosion = document.getElementById("erosion").value;
+    let fracture = document.getElementById("fracture").value;
+    let soft = document.getElementById("soft").value;
+    let longE = document.getElementById("long").value;
+    let transE = document.getElementById("trans").value;
+
+    let result = "";
+    let recommendation = "";
+
+    // منطق التصنيف المتقدم
+    if (periosteal === "agg" || soft === "yes" || fracture === "yes" || erosion === "deep") {
+        result = "BRADS‑4";
+        recommendation = "الآفة ذات صفات عدوانية – يوصى بالخزعة أو الإحالة لأورام العظام.";
+    }
+    else if (density === "lucent" && margins === "well" && periosteal === "none" && erosion === "mild") {
+        result = "BRADS‑1";
+        recommendation = "آفة سليمة نموذجية – لا تحتاج متابعة.";
+    }
+    else if (density === "mixed" || margins === "ill" || erosion === "moderate") {
+        result = "BRADS‑3";
+        recommendation = "آفة غير نموذجية – يوصى بإجراء MRI أو متابعة قصيرة.";
+    }
+    else {
+        result = "BRADS‑2";
+        recommendation = "آفة محتملة السليم – متابعة خلال 6 أشهر.";
+    }
+
+    document.getElementById("output").style.display = "block";
+    document.getElementById("output").innerHTML =
+        "<b>التصنيف:</b> " + result + "<br><br>" +
+        "<b>التوصيات:</b> " + recommendation;
+}
+
+function resetForm() {
+    location.reload();
+}
+</script>
+
+</body>
+</html>
