@@ -5,40 +5,44 @@
 <title>أداة تصنيف Bone-RADS</title>
 
 <style>
+    /* الترويسة */
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 5px;
+        padding: 20px 25px; /* إبعاد عن الحواف */
         direction: rtl;
+        background: #ffffff;
     }
 
     .header-left img {
-        width: 85px;
+        width: 120px;   /* تكبير الشعار */
         height: auto;
-        border-radius: 4px;
     }
 
     .header-right {
         text-align: right;
         font-family: "Arial", sans-serif;
+        padding-right: 10px;
     }
 
     .uni-title {
-        font-size: 22px;
+        font-size: 28px;   /* تكبير النص */
         font-weight: bold;
     }
 
     .faculty-title {
-        font-size: 18px;
+        font-size: 22px;   /* تكبير النص */
+        margin-top: 5px;
     }
 
     .header-line {
-        margin-top: 10px;
+        margin: 0 20px;
         border: 0;
-        border-top: 2px solid #000;
+        border-top: 3px solid #000;
     }
 
+    /* باقي الصفحة */
     body {
         font-family: "Tahoma", sans-serif;
         margin: 0;
@@ -147,15 +151,15 @@
 
 <body>
 
-<!-- الترويسة -->
+<!-- الترويسة الجديدة -->
 <div class="header">
-    <div class="header-left">
-        <img src="Screenshot_20260131-163707_M365 Copilot.jpg" alt="شعار جامعة دمشق">
-    </div>
-
     <div class="header-right">
         <div class="uni-title">جامعة دمشق</div>
         <div class="faculty-title">كلية الطب البشري</div>
+    </div>
+
+    <div class="header-left">
+        <img src="Screenshot_20260131-163707_M365 Copilot.jpg" alt="شعار جامعة دمشق">
     </div>
 </div>
 
@@ -309,4 +313,4 @@ function resetForm() {
 </script>
 
 </body>
-</html>
+</html> 
