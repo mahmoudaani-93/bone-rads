@@ -5,35 +5,33 @@
 <title>أداة تصنيف Bone-RADS</title>
 
 <style>
-    /* الترويسة */
+
+    /* ===========================
+       الترويسة الجديدة
+    ============================ */
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 25px; /* إبعاد عن الحواف */
-        direction: rtl;
-        background: #ffffff;
+        padding: 25px 30px;
+        background: #4B5D2A; /* أخضر زيتي مطابق للهوية البصرية السورية */
+        border: 2px solid #3e4d24; /* إطار خفيف */
+        border-radius: 8px;
+        margin: 20px;
     }
 
+    .header-right img,
+    .header-center img,
     .header-left img {
-        width: 200px;   /* تكبير الشعار */
+        width: 200px;
         height: auto;
+        object-fit: contain;
     }
 
-    .header-right {
-        text-align: right;
-        font-family: "Arial", sans-serif;
-        padding-right: 10px;
-    }
-
-    .uni-title {
-        font-size: 28px;   /* تكبير النص */
-        font-weight: bold;
-    }
-
-    .faculty-title {
-        font-size: 22px;   /* تكبير النص */
-        margin-top: 5px;
+    .header-center {
+        display: flex;
+        justify-content: center;
+        flex: 1;
     }
 
     .header-line {
@@ -42,7 +40,9 @@
         border-top: 3px solid #000;
     }
 
-    /* باقي الصفحة */
+    /* ===========================
+       تنسيق الصفحة
+    ============================ */
     body {
         font-family: "Tahoma", sans-serif;
         margin: 0;
@@ -146,31 +146,40 @@
         font-weight: bold;
         color: #000;
     }
+
 </style>
 </head>
 
 <body>
 
-<!-- الترويسة الجديدة -->
+<!-- ===========================
+     الترويسة الجديدة
+=========================== -->
 <div class="header">
+
     <div class="header-right">
-        <div class="uni-title">جامعة دمشق</div>
-        <div class="faculty-title">كلية الطب البشري</div>
+        <img src="FD.jpg" alt="شعار كلية الطب البشري">
+    </div>
+
+    <div class="header-center">
+        <img src="HD.jpg" alt="شعار الهوية البصرية السورية">
     </div>
 
     <div class="header-left">
         <img src="DU.jpg" alt="شعار جامعة دمشق">
     </div>
+
 </div>
 
 <hr class="header-line">
 
+<!-- ===========================
+     محتوى الصفحة
+=========================== -->
 <div class="container">
 
 <h2>أداة تصنيف Bone‑RADS  
 <br> Bone-RADS Classification Tool</h2>
-
-<!-- المتغيرات -->
 
 <label>الكثافة Density</label>
 <select id="density">
@@ -230,7 +239,6 @@
 
 <div id="output" class="result" style="display:none;"></div>
 
-<!-- جدول التصنيفات -->
 <div class="table-box">
 <h3 style="text-align:center;">جدول مختصر لتصنيفات Bone‑RADS</h3>
 
@@ -313,4 +321,4 @@ function resetForm() {
 </script>
 
 </body>
-</html> 
+    </html>
