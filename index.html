@@ -7,19 +7,18 @@
 <style>
 
     /* ===========================
-       الترويسة الجديدة
+       الترويسة
     ============================ */
     .header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 25px 30px;
-        background: #ffffff; /* خلفية بيضاء */
+        background: #ffffff;
         direction: rtl;
         margin: 20px;
     }
 
-    /* الشعارات الثلاثة */
     .header-right img,
     .header-left img {
         width: 200px;
@@ -27,12 +26,11 @@
         object-fit: contain;
     }
 
-    /* الشعار الأوسط — مع معالجة خاصة */
     .header-center img {
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
         object-fit: contain;
-        padding: 20px; /* يجعل الحجم البصري مطابق */
+        padding: 20px;
         background: white;
     }
 
@@ -49,7 +47,7 @@
     }
 
     /* ===========================
-       تنسيق الصفحة
+       الصفحة
     ============================ */
     body {
         font-family: "Tahoma", sans-serif;
@@ -123,29 +121,41 @@
         color: #1b5e20;
     }
 
-    .table-box {
-        margin-top: 30px;
-        background: #fff;
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #444;
-    }
-
-    table {
+    /* زر التشخيص التفريقي */
+    .diff-btn {
+        background: #455a64;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 12px;
         width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
+        border-radius: 6px;
+        margin-bottom: 10px;
     }
 
-    th, td {
-        border: 1px solid #444;
-        padding: 10px;
-        text-align: center;
+    .diff-btn:hover {
+        background: #263238;
     }
 
-    th {
-        background: #000;
-        color: #fff;
+    /* صندوق التشخيص التفريقي */
+    .diff-box {
+        background: #fff3cd;
+        border: 1px solid #ffecb5;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-size: 17px;
+        color: #7a5a00;
+    }
+
+    .diff-box ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .diff-box li {
+        margin-bottom: 6px;
     }
 
     .footer {
@@ -161,7 +171,7 @@
 <body>
 
 <!-- ===========================
-     الترويسة الجديدة
+     الترويسة
 =========================== -->
 <div class="header">
 
@@ -245,38 +255,13 @@
 <button onclick="calculate()">احسب التصنيف Calculate</button>
 <button onclick="resetForm()" class="reset-btn">إعادة التقييم Reset</button>
 
+<!-- زر التشخيص التفريقي -->
+<button onclick="showDifferential()" class="diff-btn">التشخيص التفريقي</button>
+<span style="font-size: 13px; color: #555;">(اختياري)</span>
+
+<div id="diff-box" class="diff-box" style="display:none;"></div>
+
 <div id="output" class="result" style="display:none;"></div>
-
-<div class="table-box">
-<h3 style="text-align:center;">جدول مختصر لتصنيفات Bone‑RADS</h3>
-
-<table>
-<tr>
-<th>التصنيف</th>
-<th>الوصف المختصر</th>
-</tr>
-
-<tr>
-<td>BRADS‑1</td>
-<td>آفة سليمة نموذجية – لا تحتاج متابعة</td>
-</tr>
-
-<tr>
-<td>BRADS‑2</td>
-<td>آفة محتملة السليم – متابعة خلال 6 أشهر</td>
-</tr>
-
-<tr>
-<td>BRADS‑3</td>
-<td>آفة غير نموذجية – تحتاج MRI أو متابعة قصيرة</td>
-</tr>
-
-<tr>
-<td>BRADS‑4</td>
-<td>آفة مشتبهة بالخباثة – تحتاج خزعة أو إحالة</td>
-</tr>
-</table>
-</div>
 
 <div class="footer">
 الباحث: د. محمود قاسم العاني  
@@ -286,6 +271,7 @@
 </div>
 
 <script>
+
 function calculate() {
 
     let density = document.getElementById("density").value;
@@ -294,8 +280,6 @@ function calculate() {
     let erosion = document.getElementById("erosion").value;
     let fracture = document.getElementById("fracture").value;
     let soft = document.getElementById("soft").value;
-    let longE = document.getElementById("long").value;
-    let transE = document.getElementById("trans").value;
 
     let result = "";
     let recommendation = "";
@@ -323,9 +307,104 @@ function calculate() {
         "<b>التوصيات:</b> " + recommendation;
 }
 
+function showDifferential() {
+
+    let density = document.getElementById("density").value;
+    let margins = document.getElementById("margins").value;
+    let periosteal = document.getElementById("periosteal").value;
+    let erosion = document.getElementById("erosion").value;
+    let fracture = document.getElementById("fracture").value;
+    let soft = document.getElementById("soft").value;
+
+    let diff = [];
+
+    /* ===========================
+       تشاخيص تفريقية دقيقة
+    ============================ */
+
+    // Lucent lesions
+    if (density === "lucent") {
+        diff.push("كيسة عظمية بسيطة");
+        diff.push("ورم غضروفي");
+        diff.push("ورم عظمي ليفي");
+        diff.push("كيسة عظمية أميلويدية");
+        diff.push("ورم خلايا عملاقة");
+        diff.push("ورم عظمي غير متعظم");
+    }
+
+    // Sclerotic lesions
+    if (density === "sclerotic") {
+        diff.push("نقائل عظمية مصلبة (بروستات، ثدي)");
+        diff.push("داء باجيت");
+        diff.push("ورم عظمي غضروفي");
+        diff.push("ورم عظمي متصلب");
+        diff.push("Osteopoikilosis");
+    }
+
+    // Mixed lesions
+    if (density === "mixed") {
+        diff.push("ساركوما عظمية");
+        diff.push("نقائل مختلطة");
+        diff.push("ورم أرومي غضروفي");
+        diff.push("ورم عظمي ليفي عدواني");
+    }
+
+    // Aggressive periosteal reaction
+    if (periosteal === "agg") {
+        diff.push("ساركوما إيوينغ");
+        diff.push("ساركوما عظمية");
+        diff.push("التهاب عظم ونقي حاد");
+        diff.push("ورم أرومي غضروفي عدواني");
+    }
+
+    // Deep erosion
+    if (erosion === "deep") {
+        diff.push("ورم عدواني");
+        diff.push("نقائل خبيثة");
+        diff.push("ساركوما غضروفية");
+    }
+
+    // Soft tissue mass
+    if (soft === "yes") {
+        diff.push("ساركوما عظمية");
+        diff.push("ساركوما غضروفية");
+        diff.push("ورم أرومي غضروفي");
+    }
+
+    // Pathologic fracture
+    if (fracture === "yes") {
+        diff.push("نقائل عظمية");
+        diff.push("ورم عظمي ليفي");
+        diff.push("ورم خلايا عملاقة");
+    }
+
+    // إزالة التكرار
+    diff = [...new Set(diff)];
+
+    let box = document.getElementById("diff-box");
+
+    if (box.style.display === "none") {
+        box.style.display = "block";
+
+        let list = "<b>التشاخيص التفريقية المحتملة:</b><br><br><ul>";
+
+        diff.forEach(d => {
+            list += "<li>" + d + "</li>";
+        });
+
+        list += "</ul>";
+
+        box.innerHTML = list;
+
+    } else {
+        box.style.display = "none";
+    }
+}
+
 function resetForm() {
     location.reload();
 }
+
 </script>
 
 </body>
