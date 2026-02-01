@@ -19,13 +19,21 @@
         margin: 20px;
     }
 
+    /* الشعارات الثلاثة */
     .header-right img,
-    .header-center img,
     .header-left img {
-    width: 200px;
-    height: 200px;      /* إضافة مهمة جداً */
-    object-fit: contain; /* يحافظ على الشكل بدون تمدد */
-} 
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+    }
+
+    /* الشعار الأوسط — مع معالجة خاصة */
+    .header-center img {
+        width: 200px;
+        height: 200px;
+        object-fit: contain;
+        padding: 20px; /* يجعل الحجم البصري مطابق */
+        background: white;
     }
 
     .header-center {
